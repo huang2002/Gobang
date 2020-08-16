@@ -8,6 +8,8 @@ const RESIZE_DELAY = 100;
 const FOCUS_STROKE = '#000';
 const LAST_MOVE_STROKE = '#36F';
 
+const BLANK_SHADOW = 'inset 2px 2px 2px rgba(0,0,0,.3)';
+
 const CHESS_REFLECTION = [ // css box-shadow
     'inset 2px 2px 2px rgba(255,255,255,.3)',
     'inset -2px -2px 2px rgba(0,0,0,.3)',
@@ -21,7 +23,7 @@ const FILL_STYLES = new Map([
 
 const STROKE_STYLES = new Map([
     [BLACK, '#111'],
-    [BLANK, '#999'],
+    [BLANK, '#888'],
     [WHITE, '#333'],
 ]);
 
@@ -85,7 +87,7 @@ const Chess = X.createComponent(
                     )
                 ),
                 boxShadow: $stat.map(
-                    stat => stat === BLANK ? 'none' : CHESS_REFLECTION
+                    stat => stat === BLANK ? BLANK_SHADOW : CHESS_REFLECTION
                 ),
             },
             listeners: {
