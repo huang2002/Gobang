@@ -1,12 +1,13 @@
-import { resetBoard, $board, setMove } from './view.js';
+import { resetBoard, $board, setMove, withdraw } from './view.js';
 import { hideMenu } from './menu.js';
-import { $moveHook, $gameOver, gameOver } from './toolbar.js';
+import { $moveHook, $gameOver, gameOver, $withdrawHook } from './toolbar.js';
 import { $round } from './header.js';
 import { getSide, SIDE_NAMES, opposite } from './common.js';
 import { countPaths, checkDraw } from './path.js';
 
 export const initPvP = () => {
     $moveHook.setSync(moveHookPvP);
+    $withdrawHook.setSync(withdraw);
     $round.setSync(1);
     $gameOver.setSync(false);
     resetBoard();

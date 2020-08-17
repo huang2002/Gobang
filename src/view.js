@@ -1,6 +1,7 @@
 import { h, BLACK, WHITE, BLANK } from './common.js';
 import { patchBoard, createBoard } from './board.js';
-import { confirmMove } from './toolbar.js';
+import { confirmMove, $gameOver } from './toolbar.js';
+import { $round } from './header.js';
 
 const VIEW_SIZE = .9; // x100%
 const CELL_SIZE = 7.69; // 100% / 13
@@ -28,7 +29,8 @@ const STROKE_STYLES = new Map([
 ]);
 
 export const $selected = X.toReactive(-1);
-export const $lastMove = X.toReactive(-1);
+
+const $history = X.toReactive([]);
 
 const $viewSizeInPixel = X.toReactive('300px');
 
@@ -74,17 +76,19 @@ const Chess = X.createComponent(
             style: {
                 backgroundColor: $stat.map(stat => FILL_STYLES.get(stat)),
                 borderColor: X.ReactiveValue.compose(
-                    [$stat, $selected, $lastMove],
-                    ([stat, selected, lastMove]) => (
-                        lastMove === $index.current
-                            ? LAST_MOVE_STROKE
-                            : (
-                                selected === $index.current
-                                    ? FOCUS_STROKE
-                                    : STROKE_STYLES.get(stat)
-                            )
-
-                    )
+                    [$stat, $selected, $history],
+                    ([stat, selected, history]) => {
+                        if (
+                            history.length
+                            && history[history.length - 1] === $index.current
+                        ) {
+                            return LAST_MOVE_STROKE;
+                        } else {
+                            return selected === $index.current
+                                ? FOCUS_STROKE
+                                : STROKE_STYLES.get(stat);
+                        }
+                    }
                 ),
                 boxShadow: $stat.map(
                     stat => stat === BLANK ? BLANK_SHADOW : CHESS_REFLECTION
@@ -129,7 +133,7 @@ export const viewContainer = h('div', {
 export const resetBoard = () => {
     patchBoard($board, createBoard(BLANK));
     $selected.setSync(-1);
-    $lastMove.setSync(-1);
+    $history.setSync([]);
 };
 
 /**
@@ -138,5 +142,22 @@ export const resetBoard = () => {
  */
 export const setMove = (index, side) => {
     $board.replace(index, side);
-    $lastMove.setSync(index);
+    $history.push(index);
+};
+
+/**
+ * @param {number} count
+ */
+export const withdraw = (count = 1) => {
+    const history = $history.current.slice();
+    if (history.length < count) {
+        return;
+    }
+    for (let i = 0; i < count; i++) {
+        const lastMove = history.pop();
+        $board.replace(lastMove, BLANK);
+    }
+    $round.set(round => round - count);
+    $history.setSync(history);
+    $gameOver.setSync(false);
 };

@@ -1,6 +1,6 @@
-import { resetBoard, $board, setMove } from './view.js';
+import { resetBoard, $board, setMove, withdraw } from './view.js';
 import { hideMenu } from './menu.js';
-import { $moveHook, $gameOver, gameOver } from './toolbar.js';
+import { $moveHook, $gameOver, gameOver, $withdrawHook } from './toolbar.js';
 import { $round } from './header.js';
 import { getSide, opposite, BLACK } from './common.js';
 import { countPaths, checkDraw } from './path.js';
@@ -11,6 +11,9 @@ import { findMove, FIRST_MOVE } from './ai.js';
  */
 export const initPvE = playerFirst => {
     $moveHook.setSync(moveHookPvE);
+    $withdrawHook.setSync(() => {
+        withdraw(2);
+    });
     $round.setSync(playerFirst ? 1 : 2);
     $gameOver.setSync(false);
     resetBoard();

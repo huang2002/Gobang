@@ -26,6 +26,10 @@ export const $moveHook = X.toReactive(
     }
 );
 
+export const $withdrawHook = X.toReactive(() => {
+    alert('内部错误');
+});
+
 export const confirmMove = () => {
     if ($gameOver.current) {
         alert('本局已经结束；点击“返回”回到主菜单。');
@@ -58,6 +62,9 @@ export const toolbar = h('div', {
         alert(HELP_INFO);
     }),
     SimpleButton('确认落子', confirmMove),
+    SimpleButton('悔棋', () => {
+        $withdrawHook.current();
+    }),
     SimpleButton('返回', () => {
         if ($gameOver.current || $round.current === 1 || confirm(BACK_CONFIRM)) {
             showMenu();
