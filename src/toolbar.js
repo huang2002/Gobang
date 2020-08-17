@@ -55,6 +55,8 @@ export const toolbar = h('div', {
     style: {
         textAlign: 'center',
         padding: '1em 0',
+        whiteSpace: 'nowrap',
+        overflowY: 'auto',
         userSelect: 'none',
     },
 },
