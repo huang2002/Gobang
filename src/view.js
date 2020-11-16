@@ -9,7 +9,7 @@ const RESIZE_DELAY = 100;
 const FOCUS_STROKE = '#000';
 const LAST_MOVE_STROKE = '#36F';
 
-const BLANK_SHADOW = 'inset 1px 1px 2px rgba(0,0,0,.3)';
+const BLANK_SHADOW = '0 0 1px #DDD';
 
 const CHESS_REFLECTION = [ // css box-shadow
     'inset 2px 2px 2px rgba(255,255,255,.3)',
@@ -24,7 +24,7 @@ const FILL_STYLES = new Map([
 
 const STROKE_STYLES = new Map([
     [BLACK, '#111'],
-    [BLANK, '#999'],
+    [BLANK, 'transparent'],
     [WHITE, '#333'],
 ]);
 
