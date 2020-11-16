@@ -59,7 +59,7 @@ const CHESS_CLASS = X.createClass({
     width: `${CELL_SIZE}%`,
     height: `${CELL_SIZE}%`,
     lineHeight: '0',
-    border: 'solid 1px #CCC',
+    border: 'solid 2px #CCC',
     borderRadius: '50%',
     transform: 'scale(.9)',
     outline: 'none',
